@@ -1,5 +1,6 @@
 package com.project.todolist.controller;
 
+import com.project.todolist.dto.ItemDto;
 import com.project.todolist.dto.TodoDto;
 import com.project.todolist.service.TodoService;
 import lombok.AllArgsConstructor;
@@ -40,19 +41,20 @@ public class TodoController {
     }
 
     @PostMapping("{idList}")
-    public void createListItem(@PathVariable(value = "idList") long idLIst) {
-        todoService.createItemInAList(idLIst);
+    public void addItemToList(@PathVariable(value = "idList") long idLIst,
+                              @RequestBody ItemDto itemDto) {
+        todoService.addItemToList(idLIst, itemDto);
     }
 
-    @PutMapping("{idList}/items/{idItem}")
-    public void updateAnItemInALIst(@PathVariable(value = "idList") long idList,
-                                    @PathVariable(value = "idItem") long idItem) {
-        todoService.updateAnItemInALIst(idList, idItem);
+    @PutMapping("items/{idItem}")
+    public void updateItem(@PathVariable(value = "idItem") long idItem,
+                                    @RequestBody ItemDto itemDto) {
+        todoService.updateItem(idItem, itemDto);
     }
 
     @DeleteMapping("{idList}/items/{idItem}")
-    public void deleteAnItemInAList(@PathVariable(value = "idList") long idList,
-                                    @PathVariable(value = "idItem") long idItem) {
-        todoService.deleteAnItemInALIst(idList, idItem);
+    public void deleteItem(@PathVariable(value = "idList") long idList,
+                           @PathVariable(value = "idItem") long idItem) {
+        todoService.deleteItem(idList, idItem);
     }
 }

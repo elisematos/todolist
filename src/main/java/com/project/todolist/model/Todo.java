@@ -16,6 +16,6 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Item> items;
 }

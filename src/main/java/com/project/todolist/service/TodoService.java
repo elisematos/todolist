@@ -1,6 +1,8 @@
 package com.project.todolist.service;
 
+import com.project.todolist.dto.ItemDto;
 import com.project.todolist.dto.TodoDto;
+import com.project.todolist.exception.ItemNotFoundException;
 import com.project.todolist.exception.TodoNotFoundException;
 import com.project.todolist.mapper.TodoMapper;
 import com.project.todolist.model.Item;
@@ -9,6 +11,7 @@ import com.project.todolist.repository.ItemRepository;
 import com.project.todolist.repository.TodoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,14 +56,39 @@ public class TodoService {
         todoRepository.delete(todo);
     }
 
-    public void createItemInAList(long idList) {
-
+    public void addItemToList(long idList, ItemDto itemDto) {
+        Todo todo = todoRepository.findById(idList).orElseThrow(
+                () -> new TodoNotFoundException("Todo not found with id : " + idList));
+        boolean isDone = itemDto.getDone() != null ? itemDto.getDone() : false;
+        Item itemSaved = itemRepository.save(Item.builder().name(itemDto.getName()).done(isDone).build());
+        List<Item> items = todo.getItems();
+        items.add(itemSaved);
+        todo.setItems(items);
+        todoRepository.save(todo);
     }
 
-    public void updateAnItemInALIst(long idList, long id) {
+    public void updateItem(long idItem, ItemDto itemDto) {
+        boolean isDone = itemDto.getDone() != null ? itemDto.getDone() : false;
+        Item item = itemRepository.findById(idItem).orElseThrow(
+                () -> new ItemNotFoundException("Item not found with id " + idItem)
+        );
+        item.setName(itemDto.getName());
+        item.setDone(isDone);
+        itemRepository.save(item);
     }
 
-    public void deleteAnItemInALIst(long idList, long idItem) {
+    @Transactional
+    public void deleteItem(long idList, long idItem) {
+        Todo todo = todoRepository.findById(idList).orElseThrow(
+                () -> new TodoNotFoundException("Todo not found with id " + idList));
+        List<Item> items = todo.getItems();
+        Item item = itemRepository.findById(idItem).orElseThrow(
+                () -> new ItemNotFoundException("Item not found with id " + idItem)
+        );
+        items.remove(item);
+        todo.setItems(items);
+        todoRepository.save(todo);
+        itemRepository.delete(item);
     }
 }
 
