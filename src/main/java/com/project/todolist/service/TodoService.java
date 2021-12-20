@@ -27,13 +27,16 @@ public class TodoService {
     public void createList(TodoDto todoDto) {
         Todo todo = TodoMapper.toEntity(todoDto);
         List<Item> items = new ArrayList<>();
-        todoDto.getItemsDto().forEach(item -> {
-            boolean isDone = item.getDone() != null ? item.getDone() : false;
-            Item itemSaved = itemRepository.save(Item.builder().name(item.getName()).done(isDone).build());
-            items.add(itemSaved);
-            }
-        );
-        todo.setItems(items);
+        if (todoDto.getItemsDto() != null) {
+            todoDto.getItemsDto().forEach(item -> {
+                        boolean isDone = item.getDone() != null ? item.getDone() : false;
+                        Item itemSaved = itemRepository.save(Item.builder().name(item.getName()).done(isDone).build());
+                        items.add(itemSaved);
+                    }
+            );
+            todo.setItems(items);
+        }
+
         todoRepository.save(todo);
     }
 
