@@ -80,6 +80,14 @@ public class TodoService {
         itemRepository.save(item);
     }
 
+    public void changeCheck(long idItem) {
+        Item item = itemRepository.findById(idItem).orElseThrow(
+                () -> new ItemNotFoundException("Item not found with id " + idItem)
+        );
+       item.setDone(!item.isDone());
+       itemRepository.save(item);
+    }
+
     @Transactional
     public void deleteItem(long idList, long idItem) {
         Todo todo = todoRepository.findById(idList).orElseThrow(

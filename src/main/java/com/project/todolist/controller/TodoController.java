@@ -52,6 +52,11 @@ public class TodoController {
         todoService.updateItem(idItem, itemDto);
     }
 
+    @PatchMapping("items/{idItem}")
+    public void changeCheck(@PathVariable("idItem") long idItem) {
+        todoService.changeCheck(idItem);
+    }
+
     @DeleteMapping("{idList}/items/{idItem}")
     public void deleteItem(@PathVariable(value = "idList") long idList,
                            @PathVariable(value = "idItem") long idItem) {
