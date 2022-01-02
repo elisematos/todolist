@@ -12,6 +12,7 @@ import java.util.List;
 @Builder
 @Data
 public class TodoDto {
+    private Long id;
     private String title;
     private List<ItemDto> itemsDto;
 }

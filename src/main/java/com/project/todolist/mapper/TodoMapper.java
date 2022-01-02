@@ -15,6 +15,7 @@ public class TodoMapper {
 
     public static TodoDto toDto(Todo todo) {
         return TodoDto.builder()
+                .id(todo.getId())
                 .title(todo.getTitle())
                 .itemsDto(todo.getItems().stream().map(ItemMapper::toDto).collect(Collectors.toList()))
                 .build();
