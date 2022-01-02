@@ -18,8 +18,8 @@ public class TodoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createList(@RequestBody TodoDto todoDto) {
-        todoService.createList(todoDto);
+    public TodoDto createList(@RequestBody TodoDto todoDto) {
+        return todoService.createList(todoDto);
     }
 
     @GetMapping
@@ -41,23 +41,27 @@ public class TodoController {
     }
 
     @PostMapping("{idList}")
-    public void addItemToList(@PathVariable(value = "idList") long idLIst,
+    @ResponseStatus(HttpStatus.CREATED)
+    public ItemDto addItemToList(@PathVariable(value = "idList") long idLIst,
                               @RequestBody ItemDto itemDto) {
-        todoService.addItemToList(idLIst, itemDto);
+        return todoService.addItemToList(idLIst, itemDto);
     }
 
     @PutMapping("items/{idItem}")
+    @ResponseStatus(HttpStatus.OK)
     public void updateItem(@PathVariable(value = "idItem") long idItem,
                            @RequestBody ItemDto itemDto) {
         todoService.updateItem(idItem, itemDto);
     }
 
     @PatchMapping("items/{idItem}")
+    @ResponseStatus(HttpStatus.OK)
     public void changeCheck(@PathVariable("idItem") long idItem) {
         todoService.changeCheck(idItem);
     }
 
     @DeleteMapping("{idList}/items/{idItem}")
+    @ResponseStatus(HttpStatus.OK)
     public void deleteItem(@PathVariable(value = "idList") long idList,
                            @PathVariable(value = "idItem") long idItem) {
         todoService.deleteItem(idList, idItem);
