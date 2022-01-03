@@ -37,7 +37,8 @@ public class TodoService {
             todo.setItems(items);
         }
 
-        todoRepository.save(todo);
+        Todo todoSaved = todoRepository.save(todo);
+        todoDto.setId(todoSaved.getId());
         return todoDto;
     }
 
@@ -54,10 +55,14 @@ public class TodoService {
         return TodoMapper.toDto(todo);
     }
 
-    public void deleteList(long id) {
+    public TodoDto deleteList(long id) {
         Todo todo = todoRepository.findById(id).orElseThrow(
                 () -> new TodoNotFoundException("Todo not found with id : " + id));
         todoRepository.delete(todo);
+        return TodoDto.builder()
+                .id(todo.getId())
+                .title(todo.getTitle())
+                .build();
     }
 
     public ItemDto addItemToList(long idList, ItemDto itemDto) {
@@ -69,6 +74,8 @@ public class TodoService {
         items.add(itemSaved);
         todo.setItems(items);
         todoRepository.save(todo);
+        itemDto.setId(itemSaved.getId());
+        itemDto.setDone(itemSaved.isDone());
         return itemDto;
     }
 

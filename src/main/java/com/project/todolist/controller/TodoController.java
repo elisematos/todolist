@@ -36,8 +36,8 @@ public class TodoController {
 
     @DeleteMapping("{idList}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteList(@PathVariable(value = "idList") long idList) {
-        todoService.deleteList(idList);
+    public TodoDto deleteList(@PathVariable(value = "idList") long idList) {
+       return todoService.deleteList(idList);
     }
 
     @PostMapping("{idList}")
