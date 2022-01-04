@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
                 .allowedOrigins("https://to-do-list-library-angular.herokuapp.com")
-                .allowedMethods("GET, POST, DELETE, PATCH, PUT")
+                .allowedMethods("GET, POST, DELETE, PATCH, PUT, HEAD, OPTIONS")
                 .maxAge(3600L)
                 .allowedHeaders("*")
                 .exposedHeaders("*")
