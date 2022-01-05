@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("https://to-do-list-library-angular.herokuapp.com")
                 .allowedMethods("GET, POST, DELETE, PATCH, PUT, HEAD, OPTIONS")
                 .maxAge(3600L)
-                .allowedHeaders("*")
+                .allowedHeaders("Origin, X-Requested-With, Content-Type, Accept")
                 .exposedHeaders("*")
                 .allowCredentials(true);
     }
