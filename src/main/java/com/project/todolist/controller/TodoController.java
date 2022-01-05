@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/v1/lists/")
+@CrossOrigin
 public class TodoController {
 
     private final TodoService todoService;
